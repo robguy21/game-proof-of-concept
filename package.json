@@ -68,11 +68,6 @@
     "lint": "eslint src/**/*.{js,ts,tsx}",
     "link-react": "cd example/node_modules/react && yarn link && cd ../react-dom && yarn link && cd ../../.. && yarn link react react-dom"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn format && yarn lint"
-    }
-  },
   "jest": {
     "coveragePathIgnorePatterns": [
       "src/serviceWorker.ts"

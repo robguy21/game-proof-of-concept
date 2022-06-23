@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './App.css';
+import axios from 'axios';
+import {Wheel} from 'react-custom-roulette';
 
-import { Wheel } from 'react-custom-roulette';
-
-const data = [
-  { option: 'REACT' },
-  { option: 'CUSTOM' },
-  { option: 'ROULETTE', style: { textColor: '#f9dd50' } },
-  { option: 'WHEEL' },
-  { option: 'REACT' },
-  { option: 'CUSTOM' },
-  { option: 'ROULETTE', style: { textColor: '#70bbe0' } },
-  { option: 'WHEEL' },
-];
+// const data = [
+//   { option: 'WINRAR' },
+//   { option: 'REACT' },
+//   { option: 'CUSTOM' },
+//   { option: 'ROULETTE', style: { textColor: '#f9dd50' } },
+//   { option: 'WHEEL' },
+//   { option: 'REACT' },
+//   { option: 'CUSTOM' },
+//   { option: 'ROULETTE', style: { textColor: '#70bbe0' } },
+//   { option: 'WHEEL' },
+// ];
 
 const backgroundColors = ['#ff8f43', '#70bbe0', '#0b3351', '#f9dd50'];
 const textColors = ['#0b3351'];
@@ -28,45 +29,71 @@ const textDistance = 60;
 const spinDuration = 1.0;
 
 const App = () => {
-  const [mustSpin, setMustSpin] = useState(false);
-  const [prizeNumber, setPrizeNumber] = useState(0);
+    const [mustSpin, setMustSpin] = useState(false);
+    const [prizeNumber, setPrizeNumber] = useState(0);
+    const [prizeList, setPrizeList] = useState([]);
+    let elem = document.getElementById('root');
+    let url = '';
+    if (elem !== null) {
+        url = `${elem.getAttribute('proxy_path')}`;
+    }
 
-  const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
-    setPrizeNumber(newPrizeNumber);
-    setMustSpin(true);
-  };
+    React.useEffect(() => {
+        axios.get(`${url}http://172.17.0.1:3030/game/1`)
+            .then(res => {
+                setPrizeList(res.data.game.prizes);
+                console.log(`setting prize list to`, res.data.game.prizes)
+            })
+            .catch(err => {
+                console.error({err})
+            })
+    }, [])
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Wheel
-          mustStartSpinning={mustSpin}
-          prizeNumber={prizeNumber}
-          data={data}
-          backgroundColors={backgroundColors}
-          textColors={textColors}
-          fontSize={fontSize}
-          outerBorderColor={outerBorderColor}
-          outerBorderWidth={outerBorderWidth}
-          innerRadius={innerRadius}
-          innerBorderColor={innerBorderColor}
-          innerBorderWidth={innerBorderWidth}
-          radiusLineColor={radiusLineColor}
-          radiusLineWidth={radiusLineWidth}
-          spinDuration={spinDuration}
-          // perpendicularText
-          textDistance={textDistance}
-          onStopSpinning={() => {
-            setMustSpin(false);
-          }}
-        />
-        <button className={'spin-button'} onClick={handleSpinClick}>
-          SPIN
-        </button>
-      </header>
-    </div>
-  );
+    const handleSpinClick = () => {
+        setMustSpin(true);
+        axios.get(`${url}http://172.17.0.1:3030/game/1/prize`)
+            .then((res) => {
+                console.log(prizeList, res.data.prize_id);
+                // @ts-ignore
+                const prize_index = prizeList.findIndex(e => e.id === res.data.prize_id)
+                setPrizeNumber(prize_index);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    };
+
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <Wheel
+                    mustStartSpinning={mustSpin}
+                    prizeNumber={prizeNumber}
+                    data={prizeList}
+                    backgroundColors={backgroundColors}
+                    textColors={textColors}
+                    fontSize={fontSize}
+                    outerBorderColor={outerBorderColor}
+                    outerBorderWidth={outerBorderWidth}
+                    innerRadius={innerRadius}
+                    innerBorderColor={innerBorderColor}
+                    innerBorderWidth={innerBorderWidth}
+                    radiusLineColor={radiusLineColor}
+                    radiusLineWidth={radiusLineWidth}
+                    spinDuration={spinDuration}
+                    // perpendicularText
+                    textDistance={textDistance}
+                    onStopSpinning={() => {
+                        setMustSpin(false);
+                    }}
+                />
+                <button className={'spin-button'} onClick={handleSpinClick}>
+                    SPIN
+                </button>
+            </header>
+        </div>
+    );
 };
 
 export default App;

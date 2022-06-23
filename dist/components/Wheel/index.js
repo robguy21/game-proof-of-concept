@@ -14,6 +14,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { useState, useEffect, useRef } from 'react';
 import { getRotationDegrees } from '../../utils';
 import { rouletteSelector } from '../common/images';
@@ -67,6 +68,12 @@ export var Wheel = function (_a) {
             setStartRotationDegrees(finalRotationDegrees);
         }
     }, [hasStoppedSpinning]);
+    React.useEffect(function () {
+        // eslint-disable-next-line no-console
+        console.log("Prize number is: " + prizeNumber);
+        var finalRotationDegreesCalculated = getRotationDegrees(prizeNumber, data.length);
+        setFinalRotationDegrees(finalRotationDegreesCalculated);
+    }, [prizeNumber]);
     var startSpinning = function () {
         setHasStartedSpinning(true);
         setHasStoppedSpinning(false);
@@ -89,8 +96,6 @@ export var Wheel = function (_a) {
     if (!isDataUpdated) {
         return null;
     }
-    return (React.createElement(RouletteContainer, null,
-        React.createElement(RotationContainer, { className: getRouletteClass(), startSpinningTime: startSpinningTime, continueSpinningTime: continueSpinningTime, stopSpinningTime: stopSpinningTime, startRotationDegrees: startRotationDegrees, finalRotationDegrees: finalRotationDegrees },
-            React.createElement(WheelCanvas, { width: "900", height: "900", data: wheelData, outerBorderColor: outerBorderColor, outerBorderWidth: outerBorderWidth, innerRadius: innerRadius, innerBorderColor: innerBorderColor, innerBorderWidth: innerBorderWidth, radiusLineColor: radiusLineColor, radiusLineWidth: radiusLineWidth, fontSize: fontSize, perpendicularText: perpendicularText, textDistance: textDistance })),
-        React.createElement(RouletteSelectorImage, { src: rouletteSelector.src, alt: "roulette-static" })));
+    return (_jsxs(RouletteContainer, { children: [_jsx(RotationContainer, __assign({ className: getRouletteClass(), startSpinningTime: startSpinningTime, continueSpinningTime: continueSpinningTime, stopSpinningTime: stopSpinningTime, startRotationDegrees: startRotationDegrees, finalRotationDegrees: finalRotationDegrees }, { children: _jsx(WheelCanvas, { width: "900", height: "900", data: wheelData, outerBorderColor: outerBorderColor, outerBorderWidth: outerBorderWidth, innerRadius: innerRadius, innerBorderColor: innerBorderColor, innerBorderWidth: innerBorderWidth, radiusLineColor: radiusLineColor, radiusLineWidth: radiusLineWidth, fontSize: fontSize, perpendicularText: perpendicularText, textDistance: textDistance }, void 0) }), void 0),
+            _jsx(RouletteSelectorImage, { src: rouletteSelector.src, alt: "roulette-static" }, void 0)] }, void 0));
 };

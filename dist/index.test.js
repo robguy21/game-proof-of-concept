@@ -1,4 +1,4 @@
-import React from 'react';
+import { jsx as _jsx } from "react/jsx-runtime";
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { Wheel } from '.';
@@ -30,33 +30,33 @@ afterEach(function () {
 });
 describe('Render Wheel', function () {
     it('required props only', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning }), container);
+        ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning }, void 0), container);
     });
     it('innerBorderWidth = 0', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, innerBorderWidth: 0 }), container);
+        ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, innerBorderWidth: 0 }, void 0), container);
     });
     it('outerBorderWidth = 0', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, outerBorderWidth: 0 }), container);
+        ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, outerBorderWidth: 0 }, void 0), container);
     });
     it('radiusLineWidth = 0', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, radiusLineWidth: 0 }), container);
+        ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, radiusLineWidth: 0 }, void 0), container);
     });
     it('all props defined', function () {
-        ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, backgroundColors: backgroundColors, textColors: textColors, fontSize: fontSize, outerBorderColor: outerBorderColor, outerBorderWidth: outerBorderWidth, innerRadius: innerRadius, innerBorderColor: innerBorderColor, innerBorderWidth: innerBorderWidth, radiusLineColor: radiusLineColor, radiusLineWidth: radiusLineWidth, perpendicularText: true, textDistance: textDistance, onStopSpinning: onStopSpinning }), container);
+        ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: mustStartSpinning, backgroundColors: backgroundColors, textColors: textColors, fontSize: fontSize, outerBorderColor: outerBorderColor, outerBorderWidth: outerBorderWidth, innerRadius: innerRadius, innerBorderColor: innerBorderColor, innerBorderWidth: innerBorderWidth, radiusLineColor: radiusLineColor, radiusLineWidth: radiusLineWidth, perpendicularText: true, textDistance: textDistance, onStopSpinning: onStopSpinning }, void 0), container);
     });
     it('render spin', function () {
         act(function () {
-            ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true }), container);
+            ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true }, void 0), container);
             jest.runOnlyPendingTimers();
         });
     });
     it('render callback trigger', function () {
         var hasBeenCalled = false;
         act(function () {
-            ReactDOM.render(React.createElement(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true, onStopSpinning: function () {
+            ReactDOM.render(_jsx(Wheel, { data: data, prizeNumber: prizeNumber, mustStartSpinning: true, onStopSpinning: function () {
                     hasBeenCalled = true;
                     return null;
-                } }), container);
+                } }, void 0), container);
             expect(hasBeenCalled).not.toBe(true);
             jest.runAllTimers();
         });

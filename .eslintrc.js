@@ -13,6 +13,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     'no-use-before-define': 'off',
     'react/require-default-props': 'off',
+    'indent': ['error', 4],
   },
   env: {
     jest: true,

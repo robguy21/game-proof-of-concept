@@ -1,4 +1,4 @@
-import React, { RefObject, createRef, useEffect } from 'react';
+import { RefObject, createRef, useEffect } from 'react';
 
 import { WheelCanvasStyle } from './styles';
 import { WheelData } from '../Wheel/types';

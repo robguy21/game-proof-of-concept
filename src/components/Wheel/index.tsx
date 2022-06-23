@@ -126,6 +126,16 @@ export const Wheel = ({
     }
   }, [hasStoppedSpinning]);
 
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(`Prize number is: ${prizeNumber}`);
+    const finalRotationDegreesCalculated = getRotationDegrees(
+      prizeNumber,
+      data.length
+    );
+    setFinalRotationDegrees(finalRotationDegreesCalculated);
+  }, [prizeNumber]);
+
   const startSpinning = () => {
     setHasStartedSpinning(true);
     setHasStoppedSpinning(false);

@@ -1,4 +1,5 @@
-import React, { createRef, useEffect } from 'react';
+import { jsx as _jsx } from "react/jsx-runtime";
+import { createRef, useEffect } from 'react';
 import { WheelCanvasStyle } from './styles';
 import { clamp } from '../../utils';
 var drawWheel = function (canvasRef, data, drawWheelProps) {
@@ -95,6 +96,6 @@ var WheelCanvas = function (_a) {
     useEffect(function () {
         drawWheel(canvasRef, data, drawWheelProps);
     }, [canvasRef, data, drawWheelProps]);
-    return React.createElement(WheelCanvasStyle, { ref: canvasRef, width: width, height: height });
+    return _jsx(WheelCanvasStyle, { ref: canvasRef, width: width, height: height }, void 0);
 };
 export default WheelCanvas;
