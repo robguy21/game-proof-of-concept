@@ -28,14 +28,32 @@ const fontSize = 17;
 const textDistance = 60;
 const spinDuration = 1.0;
 
+const YouWon = ({ prizeName }: { prizeName: { option: string } }) => {
+    return (
+        <div style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translateX(-50%) translateY(-50%)",
+            zIndex: 999,
+            backgroundColor: "red",
+        }}>
+            You have won {prizeName.option}
+        </div>
+    );
+}
+
 const App = () => {
     const [mustSpin, setMustSpin] = useState(false);
+    const [isDone, setIsDone] = useState(false);
     const [prizeNumber, setPrizeNumber] = useState(0);
     const [prizeList, setPrizeList] = useState([]);
     let elem = document.getElementById('root');
     let url = '';
     if (elem !== null) {
-        url = `${elem.getAttribute('proxy_path')}`;
+        if (elem.getAttribute('proxy_path')) {
+            url = `${elem.getAttribute('proxy_path')}`;
+        }
     }
 
     React.useEffect(() => {
@@ -53,16 +71,14 @@ const App = () => {
         setMustSpin(true);
         axios.get(`${url}http://172.17.0.1:3030/game/1/prize`)
             .then((res) => {
-                console.log(prizeList, res.data.prize_id);
                 // @ts-ignore
-                const prize_index = prizeList.findIndex(e => e.id === res.data.prize_id)
+                const prize_index = prizeList.findIndex(e => e.id === res.data.id)
                 setPrizeNumber(prize_index);
             })
             .catch(err => {
                 console.error(err);
             });
     };
-
 
     return (
         <div className="App">
@@ -86,11 +102,18 @@ const App = () => {
                     textDistance={textDistance}
                     onStopSpinning={() => {
                         setMustSpin(false);
+                        setIsDone(true);
                     }}
                 />
                 <button className={'spin-button'} onClick={handleSpinClick}>
                     SPIN
                 </button>
+
+                {
+                    isDone ? (
+                        <YouWon prizeName={prizeList[prizeNumber]} />
+                    ) : null
+                }
             </header>
         </div>
     );
